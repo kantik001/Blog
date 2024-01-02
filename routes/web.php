@@ -19,9 +19,7 @@ Route::get('/', \App\Http\Controllers\Main\IndexController::class);
 
 Route::prefix('admin')->group(function () {
         Route::get('/', \App\Http\Controllers\Admin\Main\IndexController::class);
-        Route::prefix('categories')->group(function () {
-            Route::get('/',[ \App\Http\Controllers\Admin\Category\CategoryController::class, 'index']);
-    });
+        Route::resource('categories', \App\Http\Controllers\Admin\Category\CategoryController::class);
 });
 
 
