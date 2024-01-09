@@ -9,7 +9,7 @@
                     <div class="col-sm-6 d-flex align-items-center">
                         <h1 class="m-0">{{ $category->title }}</h1>
                         <a href="{{ route('categories.edit', $category->id) }}" class="text-success"><i class="fas fa-edit ml-3"></i></a>
-                        <form action="{{ route('categories.delete', $category->id) }}" method="POST">
+                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="border-0 bg-transparent">
@@ -19,7 +19,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Главная</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Главная</a></li>
                             <li class="breadcrumb-item"><a href="#">Категории</a></li>
                             <li class="breadcrumb-item active">{{ $category->title }}</li>
                         </ol>
