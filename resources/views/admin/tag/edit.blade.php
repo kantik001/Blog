@@ -7,13 +7,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Редактирование категории</h1>
+                        <h1 class="m-0">Редактирование тэга</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Главная</a></li>
-                            <li class="breadcrumb-item"><a href="#">Категории</a></li>
-                            <li class="breadcrumb-item active">Редактирование категории</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Главная</a></li>
+                            <li class="breadcrumb-item"><a href="#">Тэги</a></li>
+                            <li class="breadcrumb-item active">Редактирование тэга</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -27,12 +27,12 @@
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <div class="col-12">
-                        <form class="w-25" action="{{ route('categories.update', $category->id) }}" method="POST">
+                        <form class="w-25" action="{{ route('tags.update', $tag->id) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Название категории" name="title"
-                                       value="{{ $category->title }}">
+                                <input type="text" class="form-control" placeholder="Название тэга" name="title"
+                                       value="{{ $tag->title }}">
                                 @error('title')
                                 <div class="text-danger">Это поле необходимо для заполнения</div>
                                 @enderror

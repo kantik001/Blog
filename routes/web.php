@@ -20,6 +20,7 @@ Route::get('/', \App\Http\Controllers\Main\IndexController::class);
 Route::prefix('admin')->group(function () {
         Route::get('/', \App\Http\Controllers\Admin\Main\IndexController::class)->name('admin.main.index');
         Route::resource('categories', \App\Http\Controllers\Admin\Category\CategoryController::class);
+        Route::resource('tags', \App\Http\Controllers\Admin\Category\TagController::class);
 });
 
 
