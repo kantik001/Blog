@@ -53,7 +53,7 @@
                                                 <td class="text-center"> <a href="{{ route('posts.show', $post->id) }}"><i class="far fa-eye"></i></a></td>
                                                 <td class="text-center"> <a href="{{ route('posts.edit', $post->id) }}" class="text-success"><i class="fas fa-edit"></i></a></td>
                                                 <td class="text-center">
-                                                    <form action="{{route('osts.destroy', $post->id)}}" method="POST">
+                                                    <form action="{{route('posts.destroy', $post->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="border-0 bg-transparent">
