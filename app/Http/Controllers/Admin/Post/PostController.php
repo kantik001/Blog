@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -27,7 +28,10 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.post.create', compact('categories'));
+        $tags = Tag::all();
+
+
+        return view('admin.post.create', compact('categories', 'tags'));
     }
 
     /**
@@ -35,13 +39,20 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
+            $tagIds = $data['tag_ids'];
+            unset($data['tag_ids']);
 
-        $data['preview_image'] = Storage::put('/images', $data['preview_image']);
+            $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
+            $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
+            $post = Post::firstOrCreate($data);
+            $post->tags()->attach($tagIds);
 
-        $data['main_image'] = Storage::put('/images', $data['main_image']);
+        } catch (\Exception $exception) {
+            abort(404);
+        }
 
-        Post::firstOrcreate($data);
         return redirect()->route('posts.index');
     }
 
@@ -58,7 +69,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.post.edit', compact('post'));
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('admin.post.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -67,7 +81,15 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
         $data = $request->validated();
+        $tagIds = $data['tag_ids'];
+        unset($data['tag_ids']);
+
+        $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
+        $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
+
         $post->update($data);
+        $post->tags()->sync($tagIds);
+
         return view('admin.post.show', compact('post'));
     }
 
