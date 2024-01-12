@@ -33,7 +33,7 @@ class TagController extends Controller
     public function store(StoreTagRequest $request)
     {
         $data = $request->validated();
-        Tag::firstOrcreate($data);
+        Tag::firstOrCreate($data);
         return redirect()->route('tags.index');
     }
 

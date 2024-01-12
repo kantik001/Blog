@@ -22,6 +22,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('categories', \App\Http\Controllers\Admin\Category\CategoryController::class);
         Route::resource('tags', \App\Http\Controllers\Admin\Tag\TagController::class);
         Route::resource('posts', \App\Http\Controllers\Admin\Post\PostController::class);
+        Route::resource('users', \App\Http\Controllers\Admin\User\UserController::class);
 });
 
 
