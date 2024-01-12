@@ -10,7 +10,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
 
-class PostController extends Controller
+class PostController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -39,19 +39,9 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        try {
-            $data = $request->validated();
-            $tagIds = $data['tag_ids'];
-            unset($data['tag_ids']);
+        $data = $request->validated();
 
-            $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
-            $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
-            $post = Post::firstOrCreate($data);
-            $post->tags()->attach($tagIds);
-
-        } catch (\Exception $exception) {
-            abort(404);
-        }
+        $this->service->store($data);
 
         return redirect()->route('posts.index');
     }
@@ -81,14 +71,8 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
         $data = $request->validated();
-        $tagIds = $data['tag_ids'];
-        unset($data['tag_ids']);
 
-        $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
-        $data['main_image'] = Storage::disk('public')->put('/images', $data['main_image']);
-
-        $post->update($data);
-        $post->tags()->sync($tagIds);
+        $this->service->update($data, $post);
 
         return view('admin.post.show', compact('post'));
     }
