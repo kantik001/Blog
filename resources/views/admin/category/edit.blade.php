@@ -12,7 +12,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Главная</a></li>
-                            <li class="breadcrumb-item"><a href="#">Категории</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('categories.index') }}">Категории</a></li>
                             <li class="breadcrumb-item active">Редактирование категории</li>
                         </ol>
                     </div><!-- /.col -->

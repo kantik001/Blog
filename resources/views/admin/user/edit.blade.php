@@ -12,7 +12,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('admin.main.index') }}">Главная</a></li>
-                            <li class="breadcrumb-item"><a href="#">Пользователи</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Пользователи</a></li>
                             <li class="breadcrumb-item active">Редактирование пользователя</li>
                         </ol>
                     </div><!-- /.col -->
@@ -26,22 +26,41 @@
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
                 <div class="row">
-                    <div class="col-12">
-                        <form class="w-25" action="{{ route('categories.update', $user->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Название категории" name="name"
-                                       value="{{ $user->name }}">
-                                @error('title')
-                                <div class="text-danger">Это поле необходимо для заполнения</div>
-                                @enderror
+                    <form class="w-25" action="{{ route('users.update', $user->id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Имя пользователя" name="name"
+                                   value="{{ $user->name }}">
+                            @error('name')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input value="{{ $user->email }}" type="text" class="form-control" placeholder="Email" name="email">
+                            @error('email')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group w-50">
+                            <label>Выберите роль</label>
+                            <select name="role" class="form-control">
+                                @foreach($roles as $id => $role)
+                                    <option value="{{ $id }}"
+                                        {{ $id == $user->role ? ' selected' : '' }}
+                                    >{{ $role }}</option>
+                                @endforeach
+                            </select>
+                            @error('role')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="form-group w-50">
+                                <input type="hidden" name="user_id" value="{{ $user->id }}">
                             </div>
-                            <input type="submit" class="btn btn-primary" value="Обновить">
-                        </form>
-                    </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Обновить">
+                    </form>
                 </div>
-
                 <!-- /.row -->
 
             </div><!-- /.container-fluid -->
